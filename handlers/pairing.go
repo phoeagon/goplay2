@@ -2,14 +2,15 @@ package handlers
 
 import (
 	"bytes"
+	"goplay2/homekit"
+	"goplay2/rtsp"
+	"strings"
+
 	"github.com/brutella/hc/crypto"
 	"github.com/brutella/hc/hap"
 	"github.com/brutella/hc/hap/pair"
 	"github.com/brutella/hc/util"
-	"goplay2/homekit"
-	"goplay2/rtsp"
 	"howett.net/plist"
-	"strings"
 )
 
 func (r *Rstp) OnPairSetup(conn *rtsp.Conn, req *rtsp.Request) (*rtsp.Response, error) {
@@ -72,6 +73,10 @@ func (r *Rstp) OnPairVerify(conn *rtsp.Conn, req *rtsp.Request) (*rtsp.Response,
 	var secSession crypto.Cryptographer
 
 	if in, err = util.NewTLV8ContainerFromReader(bytes.NewReader(req.Body)); err == nil {
+		if in.GetByte(pair.TagSequence) == 1 {
+			ctlr = pair.NewVerifyServerController(homekit.Server.Database, homekit.Server.Context)
+			session.SetPairVerifyHandler(ctlr)
+		}
 		out, err = ctlr.Handle(in)
 	}
 

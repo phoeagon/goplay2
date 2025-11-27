@@ -163,6 +163,17 @@ setcap 'cap_net_bind_service=+ep' ./goplay2
 
 nb: should be re-run every time you build goplay2 
 
+
+#### Running on Mac OS X
+
+On newer Mac versions, you need to turn off the system AirPlay receiver to use goplay2.
+
+![Setting](./assets/setting.png)
+
+```
+./goplay2 -i en1 -n MyAirPlay
+```
+
 #### Parameters 
 
 `delay` (ms) is subtracted from the local "clock" <br>
