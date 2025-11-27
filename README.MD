@@ -49,6 +49,19 @@ git clone https://github.com/openairplay/goplay2.git
 go build  
 ```
 
+### Special build instructions for Apple Silicon Mac
+
+The following instructions, tested on Nov 26, 2025 on Sequioa 15.6
+
+```shell
+brew install pkg-config pulseaudio go fdk-aac
+cd goplay2 # enter the download path
+go get -u golang.org/x/net
+go get -u golang.org/x/sys
+go mod tidy
+go build
+```
+
 ### Dependencies 
 
 You need to have portaudio-dev, pulseaudio and lib-fdk-aac and go runtime installed to build this program
