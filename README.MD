@@ -37,6 +37,43 @@ The goal is to have an *Opinionated* implementation, with only some features but
 * The accuracy is around 1ms of offset between clocks.
 * Need to sync during playing (add silence of skip frames) 
 
+## Install on macOS (Apple Silicon)
+
+### Option A — Homebrew (recommended)
+
+```sh
+# Add the tap and install in one step
+brew tap phoeagon/local https://github.com/phoeagon/goplay2
+brew install phoeagon/local/goplay2
+```
+
+This automatically installs all dependencies (`pkg-config`, `portaudio`, `pulseaudio`, `fdk-aac`)  
+and a man page (`man goplay2`).
+
+### Option B — Pre-built binary
+
+Download the latest binary from the [Releases page](https://github.com/phoeagon/goplay2/releases).
+
+macOS Gatekeeper will quarantine unsigned binaries. Remove the quarantine
+attribute before running:
+
+```sh
+# Download and extract the release archive, then:
+xattr -cr goplay2          # strip quarantine flag (recursively)
+chmod +x goplay2           # ensure it is executable
+./goplay2 -i en0 -n MyAirPlay
+```
+
+> **Note:** `xattr -cr` removes *all* extended attributes from the file  
+> (including `com.apple.quarantine`). It is safe to run on single binaries.
+
+You still need the runtime dependencies:
+```sh
+brew install portaudio pulseaudio fdk-aac
+```
+
+---
+
 ## How to build ( works on Linux and MacOsX)
 
 * Clone the repository
@@ -54,7 +91,7 @@ go build
 The following instructions, tested on Nov 26, 2025 on Sequioa 15.6
 
 ```shell
-brew install pkg-config pulseaudio go fdk-aac
+brew install pkg-config portaudio pulseaudio go fdk-aac
 cd goplay2 # enter the download path
 go get -u golang.org/x/net
 go get -u golang.org/x/sys
